@@ -3,25 +3,31 @@ name: Build and Deploy to ACR
 on:
   push:
     branches:
-      - main
+      - maingit
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout code from repository
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Azure login using Service Principal (Recommended for GitHub Actions)
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Log in to ACR (with az acr login)
       - name: Log in to ACR
         run: az acr login --name ${{ secrets.AZURE_ACR_NAME }}
-        env:
-          AZURE_ACR_NAME: ${{ secrets.AZURE_ACR_NAME }}
-          AZURE_USERNAME: ${{ secrets.AZURE_USERNAME }}
-          AZURE_PASSWORD: ${{ secrets.AZURE_PASSWORD }}
 
+      # Build the Docker image
       - name: Build Docker image
         run: docker build . -t ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/${{ secrets.IMAGE_NAME }}:v1
 
+      # Push Docker image to ACR
       - name: Push Docker image to ACR
         run: docker push ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/${{ secrets.IMAGE_NAME }}:v1
