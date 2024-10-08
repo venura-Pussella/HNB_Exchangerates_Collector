@@ -1,0 +1,27 @@
+name: Build and Deploy to ACR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to ACR
+        run: az acr login --name ${{ secrets.AZURE_ACR_NAME }}
+        env:
+          AZURE_ACR_NAME: ${{ secrets.AZURE_ACR_NAME }}
+          AZURE_USERNAME: ${{ secrets.AZURE_USERNAME }}
+          AZURE_PASSWORD: ${{ secrets.AZURE_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build . -t ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/${{ secrets.IMAGE_NAME }}:v1
+
+      - name: Push Docker image to ACR
+        run: docker push ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/${{ secrets.IMAGE_NAME }}:v1
