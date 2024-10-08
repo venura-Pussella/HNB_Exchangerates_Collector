@@ -1,0 +1,20 @@
+docker build -t exchange_rate_app . - image builder
+
+docker images - to access the image
+
+docker run -d --name exchange_rate_container exchange_rate_app - Container build
+
+docker rmi c6c2933bbe6a - docker remove image
+
+.venv\scripts\activate - Virtual environment activation
+
+func start --port 7072 - Port change 
+
+netstat -ano | findstr :7072 - to check the port if running 
+
+taskkill /PID [PID] /F - delete task if running
+
+SELECT VALUE COUNT(1) FROM c - cosmos db count of the records
+
+
+######### Make this as a Azure function Trigger at every 6 hours #########
