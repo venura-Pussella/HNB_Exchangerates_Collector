@@ -10,14 +10,14 @@ jobs:
     - uses: actions/checkout@v2 
     - uses: azure/docker-login@v1
       with:
-        login-server: hnbexchangerates01.azurecr.io
+        login-server: banksexchangerates.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}  # ACR username from GitHub Secrets
         password: ${{ secrets.REGISTRY_PASSWORD }}  # ACR password from GitHub Secrets
 
     # Build and tag the Docker image
     - run: |
         # Set the image tag
-        IMAGE_TAG=hnbexchangerates01.azurecr.io/hnbexchangerates:latest
+        IMAGE_TAG=banksexchangerates.azurecr.io/hnbexchangerates:latest
 
         # Build the Docker image (overwrites existing image with same tag)
         docker build . -t $IMAGE_TAG
