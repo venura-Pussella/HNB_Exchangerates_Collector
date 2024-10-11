@@ -9,7 +9,7 @@ def convert_to_cosmos_db_format(exchange_rates):
         # Generate a unique id for each document
         rate_document = {
             "id": str(uuid.uuid4()),
-            "timestamp": rate['timestamp'],
+            "timestamp": f"{rate['date']}T{rate['time']}Z",  # Combine date and time into ISO 8601 format
             "currency": rate['currency'],
             "code": rate['code'],
             "buying_rate": float(rate['buying_rate']),
