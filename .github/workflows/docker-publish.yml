@@ -17,7 +17,7 @@ jobs:
     # Build and tag the Docker image
     - run: |
         # Set the image tag
-        IMAGE_TAG=hnbexchangerates01.azurecr.io/myapp:latest
+        IMAGE_TAG=hnbexchangerates01.azurecr.io/hnbexchangerates:latest
 
         # Build the Docker image (overwrites existing image with same tag)
         docker build . -t $IMAGE_TAG
