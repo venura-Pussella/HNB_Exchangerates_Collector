@@ -17,7 +17,7 @@ async def main():
 
     try:
 
-        logger.info("Starting the data extraction process")
+        logger.info(">>>Starting the HNB Data Extraction Process<<<")
 
         # Extract html content from Url
         html_content = fetch_url_content(EXCHANGE_RATES_URL)
@@ -39,7 +39,7 @@ async def main():
         # Upload to Cosmos DB
         await write_exchange_rates_to_cosmosdb(cosmos_db_documents_json )
 
-        logger.info("Completion of data ingestion to CosmosDB")
+        logger.info(">>>Completion of data ingestion to CosmosDB<<<")
     
         send_log(
 
