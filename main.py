@@ -41,42 +41,43 @@ async def main():
 
         logger.info(">>>Completion of data ingestion to CosmosDB<<<")
     
-        send_log(
+    #     send_log(
 
-            service_type="Azure Function",
-            application_name="HNB Exchangerates Collector",
-            project_name="Dockit Exchange Rates History",
-            project_sub_name="Exchangerates History",
-            azure_hosting_name="AI Services",
-            developmental_language="Python",
-            description="Bank Exchange Rates - Function Application",
-            created_by="BrownsAIseviceTest",
-            log_print="Successfully completed data ingestion to Cosmos DB.",
-            running_within_minutes=1440,
-            error_id=0
+    #         service_type="Azure Function",
+    #         application_name="HNB Exchangerates Collector",
+    #         project_name="Dockit Exchange Rates History",
+    #         project_sub_name="Exchangerates History",
+    #         azure_hosting_name="AI Services",
+    #         developmental_language="Python",
+    #         description="Bank Exchange Rates - Function Application",
+    #         created_by="BrownsAIseviceTest",
+    #         log_print="Successfully completed data ingestion to Cosmos DB.",
+    #         running_within_minutes=1440,
+    #         error_id=0
 
-        )
-        logger.info("sent success log to function monitoring service.")
+    #     )
+    #     logger.info("sent success log to function monitoring service.")
 
     except Exception as e:
+        
         # send_error_log to monitoring service
         logger.error(f"An error occurred: {e}")
 
-        send_log(
+    #     send_log(
 
-            service_type="Azure Function",
-            application_name="HNB Exchangerates Collector",
-            project_name="Dockit Exchange Rates History",
-            project_sub_name="Exchangerates History",
-            azure_hosting_name="AI Services",
-            developmental_language="Python",
-            description="Bank Exchange Rates - Function Application",
-            created_by="BrownsAIseviceTest",
-            log_print="An error occurred: " + str(e),
-            running_within_minutes=1440,
-            error_id=1
-        )
-        raise
+    #         service_type="Azure Function",
+    #         application_name="HNB Exchangerates Collector",
+    #         project_name="Dockit Exchange Rates History",
+    #         project_sub_name="Exchangerates History",
+    #         azure_hosting_name="AI Services",
+    #         developmental_language="Python",
+    #         description="Bank Exchange Rates - Function Application",
+    #         created_by="BrownsAIseviceTest",
+    #         log_print="An error occurred: " + str(e),
+    #         running_within_minutes=1440,
+    #         error_id=1
+    #     )
+    #     raise
 
 def run_main():
     
