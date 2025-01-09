@@ -2,6 +2,8 @@ import os
 from src import logger
 from dotenv import load_dotenv
 from azure.storage.blob import BlobServiceClient
+from src.configuration import configuration as config
+from datetime import datetime
 
 load_dotenv()
 
@@ -80,3 +82,25 @@ def upload_to_blob(csv_data, base_file_name):
 # Log any other exceptions and raise them.
 # Increment the index for the next file.
     
+def backup_for_reference(html_string: str):
+    # Initialize BlobServiceClient
+    blob_service_client = BlobServiceClient.from_connection_string(connect_str)
+    container_client = blob_service_client.get_container_client(config.container_name_for_reference_backups)
+    if not container_client.exists():
+        container_client = blob_service_client.create_container(name=config.container_name_for_reference_backups)
+    # list existing backups of just our relevant bank
+    blob_list = list(container_client.list_blobs())
+    for blob in blob_list.copy():
+        if config.backup_base_filename not in blob.name:
+            blob_list.remove(blob)
+    
+    # if too many backups, delete the older backups
+    sorted_blob_list = sorted(blob_list, key=lambda blob: blob.creation_time, reverse=True)
+    if len(sorted_blob_list) > config.backup_pairs_to_keep:
+        blobs_to_remove = sorted_blob_list[config.backup_pairs_to_keep:]
+        for blob in blobs_to_remove:
+            blob_client = container_client.get_blob_client(blob)
+            blob_client.delete_blob()
+    # upload the new backups
+    filename = config.backup_base_filename + str(datetime.now())
+    container_client.upload_blob(f'{filename}.html', html_string)

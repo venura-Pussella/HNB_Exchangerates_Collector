@@ -3,7 +3,7 @@ import asyncio
 import platform
 from src import logger
 from src.utils.log_utils import send_log
-from src.connector.blob import upload_to_blob
+from src.connector.blob import upload_to_blob, backup_for_reference
 from src.connector.url import fetch_url_content
 from src.operators.extractor_html_list import write_exchange_rates_to_list
 from src.operators.extractor_html_dict import write_exchange_rates_to_dict
@@ -21,6 +21,9 @@ async def main():
 
         # Extract html content from Url
         html_content = fetch_url_content(EXCHANGE_RATES_URL)
+
+        # backup html content for reference
+        backup_for_reference(html_content)
         
         # Extract exchange rates from the HTML content to a list
         exchange_rates = write_exchange_rates_to_list(html_content)
